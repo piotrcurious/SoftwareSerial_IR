@@ -176,7 +176,7 @@ void SoftwareSerial_IR::begin(uint16_t speed) // default 36khz, hardcoded FIXME
   // 12 (gcc 4.8.2) or 14 (gcc 4.3.2) cycles from last bit to stop bit
   // These are all close enough to just use 15 cycles, since the inter-bit
   // timings are the most critical (deviations stack 8 times)
-  _tx_delay_ir = 62; // hardcoded. for 1200bps - 30 27.77 us cycles. so about 31 26us cycles. 
+  _tx_delay_ir = 60; // hardcoded. for 1200bps - 30 27.77 us cycles. so about 31 26us cycles. 
  //30*27.77=833.1us
  //32*26=832us 
  // 1200 baud should be 832uS 
@@ -277,11 +277,11 @@ if (_disable_interrupts)
     *reg |= reg_mask;
   else
     *reg &= inv_mask; // IR mode - IR LED off. 
-		delayMicroseconds(13); //1/36000 = 27.77 microseconds
+		delayMicroseconds(27); //1/36000 = 27.77 microseconds
 //     tunedDelay(_IR_delay);
 		}
 // stop bit twice
-/*
+
   delay = _tx_delay_ir; // moved to local variable, this increases overhead...
   while (delay--) {
 //    		*reg |= reg_mask; // stop bit is 1 so do not modulate.  
@@ -289,10 +289,10 @@ if (_disable_interrupts)
     *reg |= reg_mask;
   else
     *reg &= inv_mask; // IR mode - IR LED off. 
-		delayMicroseconds(13); //1/36000 = 27.77 microseconds
+		delayMicroseconds(14); //1/36000 = 27.77 microseconds
 //     tunedDelay(_IR_delay);
 	}
-*/  // --------2nd stop bit 
+  // --------2nd stop bit 
 
 //inverted for IR! 
   if (_inverse_logic)
