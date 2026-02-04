@@ -1,5 +1,5 @@
 /*
-SoftwareSerial_IR.h - ESP32 Non-Blocking Port
+SoftwareSerial_IR.h - ESP32 High-Resolution Port
 Multi-instance software serial library for Arduino/Wiring
 -- Based on the original SoftwareSerial_IR by curious
 */
@@ -12,19 +12,22 @@ Multi-instance software serial library for Arduino/Wiring
 #include <freertos/FreeRTOS.h>
 #include <freertos/task.h>
 #include <freertos/queue.h>
+#include <esp_cpu.h>
 
 class SoftwareSerial_IR : public Stream
 {
 private:
   // per object data
   int8_t _transmitPin;
-  uint16_t _tx_delay_ir;
   bool _inverse_logic;
   bool _disable_interrupts;
 
   QueueHandle_t _txQueue;
   TaskHandle_t _txTaskHandle;
   volatile bool _is_transmitting;
+
+  uint32_t _cycles_per_bit;
+  uint32_t _cycles_per_half_carrier;
 
   // private methods
   void setTX(int8_t transmitPin);
